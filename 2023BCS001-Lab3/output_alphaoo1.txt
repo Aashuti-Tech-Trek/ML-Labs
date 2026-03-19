@@ -1,0 +1,18 @@
+Alpha= 0.001
+Iterations= 10000
+Learned Parameters:
+theta0 = -0.0387291
+theta1 = 0.418369
+theta2 = -1.67153
+theta3 = 0.0816628
+
+Predictions:
+Obs	Probability	Class
+1	4.74608e-006		0
+2	0.000336594		0
+3	0.990446		1
+4	0.0100372		0
+5	4.95941e-006		0
+6	1		1
+7	0.999862		1
+8	0.999856		1

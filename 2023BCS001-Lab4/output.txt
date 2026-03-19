@@ -1,0 +1,53 @@
+Dataset 1
+
+Iteration 1 Distance Calculation:
+Point 2 : d(C1)=0.00 d(C2)=8.00 -> Cluster 1
+Point 4.00 : d(C1)=2.00 d(C2)=6.00 -> Cluster 1
+Point 10.00 : d(C1)=8.00 d(C2)=0.00 -> Cluster 2
+Point 12.00 : d(C1)=10.00 d(C2)=2.00 -> Cluster 2
+
+Centroids after first iteration:
+C1: 3.00 
+C2: 11.00 
+
+Final Clusters after Convergence:
+Cluster 1 (Centroid: 3.00 )
+Members: (2.00 ) (4.00 ) 
+
+Cluster 2 (Centroid: 11.00 )
+Members: (10.00 ) (12.00 ) 
+
+Dataset 2
+
+Iteration 1 Distance Calculation:
+Point 2.00 20.00 : d(C1)=0.00 d(C2)=45.40 d(C3)=28.18 -> Cluster 1
+Point 3.00 25.00 : d(C1)=5.10 d(C2)=40.31 d(C3)=23.32 -> Cluster 1
+Point 4.00 30.00 : d(C1)=10.20 d(C2)=35.23 d(C3)=18.60 -> Cluster 1
+Point 5.00 35.00 : d(C1)=15.30 d(C2)=30.15 d(C3)=14.14 -> Cluster 3
+Point 6.00 40.00 : d(C1)=20.40 d(C2)=25.08 d(C3)=10.30 -> Cluster 3
+Point 8.00 65.00 : d(C1)=45.40 d(C2)=0.00 d(C3)=21.19 -> Cluster 2
+Point 9.00 70.00 : d(C1)=50.49 d(C2)=5.10 d(C3)=25.71 -> Cluster 2
+Point 10.00 75.00 : d(C1)=55.58 d(C2)=10.20 d(C3)=30.41 -> Cluster 2
+Point 11.00 80.00 : d(C1)=60.67 d(C2)=15.30 d(C3)=35.23 -> Cluster 2
+Point 12.00 85.00 : d(C1)=65.76 d(C2)=20.40 d(C3)=40.11 -> Cluster 2
+Point 15.00 45.00 : d(C1)=28.18 d(C2)=21.19 d(C3)=0.00 -> Cluster 3
+Point 16.00 50.00 : d(C1)=33.11 d(C2)=17.00 d(C3)=5.10 -> Cluster 3
+Point 17.00 55.00 : d(C1)=38.08 d(C2)=13.45 d(C3)=10.20 -> Cluster 3
+Point 18.00 60.00 : d(C1)=43.08 d(C2)=11.18 d(C3)=15.30 -> Cluster 2
+Point 19.00 65.00 : d(C1)=48.10 d(C2)=11.00 d(C3)=20.40 -> Cluster 2
+
+Centroids after first iteration:
+C1: 3.00 25.00 
+C2: 12.43 71.43 
+C3: 11.80 45.00 
+
+Final Clusters after Convergence:
+Cluster 1 (Centroid: 3.50 27.50 )
+Members: (2.00 20.00 ) (3.00 25.00 ) (4.00 30.00 ) (5.00 35.00 ) 
+
+Cluster 2 (Centroid: 12.43 71.43 )
+Members: (8.00 65.00 ) (9.00 70.00 ) (10.00 75.00 ) (11.00 80.00 ) (12.00 85.00 ) (18.00 60.00 ) (19.00 65.00 ) 
+
+Cluster 3 (Centroid: 13.50 47.50 )
+Members: (6.00 40.00 ) (15.00 45.00 ) (16.00 50.00 ) (17.00 55.00 ) 
+

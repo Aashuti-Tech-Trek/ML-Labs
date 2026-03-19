@@ -1,0 +1,5 @@
+Iteration,Cluster,Mean,Variance,MixingCoefficient
+1,1,1.5,0.25,0.5
+1,2,8.5,0.25,0.5
+2,1,1.5,0.25,0.5
+2,2,8.5,0.25,0.5

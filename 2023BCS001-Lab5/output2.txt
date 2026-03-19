@@ -1,0 +1,6 @@
+Cluster Centers:
+Cluster 1 Center = 26.3429
+Cluster 2 Center = 46.5943
+
+Overlapping Data Points:
+25.0000 48.0000 

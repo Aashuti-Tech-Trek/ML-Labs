@@ -1,0 +1,311 @@
+LINEAR REGRESSION WITH GRADIENT DESCENT - ASSIGNMENT 2 ANSWERS
+By: Aashuti Gambhir (2023BCS-001)
+
+QUESTION (a): Vectorized Model and Loss Function
+
+Model in Vectorized Form:
+ŷ = Xθ
+
+Where:
+  X (Design Matrix, 8×4): Each row is [1, x1_i, x2_i, x3_i]
+  
+  X = [1  450  120  1.2]
+      [1  520  135  1.8]
+      [1  610  150  2.5]
+      [1  580  148  2.2]
+      [1  490  130  1.5]
+      [1  720  170  3.1]
+      [1  680  165  2.9]
+      [1  640  155  2.6]
+
+  θ = [θ0]  (Parameter vector, 4×1)
+      [θ1]
+      [θ2]
+      [θ3]
+
+  y = [210, 245, 310, 295, 235, 360, 345, 325]^T (Target vector, 8×1)
+  ŷ = Xθ (Predicted values, 8×1)
+
+Loss Function in Vectorized Form:
+
+J(θ) = (1/(2n)) ||Xθ - y||²
+
+Which expands to:
+J(θ) = (1/(2n)) (Xθ - y)^T (Xθ - y)
+
+Where:
+  n = 8 (number of observations)
+  ||·|| denotes the L2 norm (Euclidean norm)
+
+
+QUESTION (b): Gradient Derivation
+
+Derivation of the Gradient:
+---------------------------
+Starting with J(θ) = (1/(2n)) (Xθ - y)^T (Xθ - y)
+
+Let e = Xθ - y (error vector)
+
+J(θ) = (1/(2n)) e^T e
+
+Taking the derivative with respect to θ:
+∂J/∂θ = (1/(2n)) · 2 · X^T(Xθ - y)
+
+Simplifying:
+∂J/∂θ = (1/n) X^T(Xθ - y)
+
+Individual Gradients (from chain rule):
+∂J/∂θ_j = (1/n) Σ(i=1 to n) (ŷ_i - y_i) · x_ij
+
+Where:
+  - For θ0: x_i0 = 1 (bias term)
+  - For θ1, θ2, θ3: x_ij corresponds to the respective features
+
+Matrix Form:
+∇J(θ) = (1/n) X^T(Xθ - y)
+
+
+QUESTION (c): One Full Batch Gradient Descent Update
+
+Initial Setup:
+--------------
+  θ_initial = [0, 0, 0, 0]^T (all parameters start at 0)
+  α = 10^-7 (learning rate)
+  n = 8
+
+Step 1: Compute Xθ with θ = 0
+-------------------------------
+Xθ = [0, 0, 0, 0, 0, 0, 0, 0]^T (all zeros since θ = 0)
+
+Step 2: Compute error vector
+-----------------------------
+e = Xθ - y = [0 - 210, 0 - 245, 0 - 310, 0 - 295, 0 - 235, 0 - 360, 0 - 345, 0 - 325]^T
+            = [-210, -245, -310, -295, -235, -360, -345, -325]^T
+
+Step 3: Compute gradient ∇J(θ) = (1/n) X^T · e
+--------------------------------------------------
+
+X^T · e = [1    1     1     1     1     1     1     1  ] [-210]
+          [450  520   610   580   490   720   680   640] [-245]
+          [120  135   150   148   130   170   165   155] [-310]
+          [1.2  1.8   2.5   2.2   1.5   3.1   2.9   2.6] [-295]
+                                                         [-235]
+                                                         [-360]
+                                                         [-345]
+                                                         [-325]
+
+Computing each component:
+  Sum of errors: -210 - 245 - 310 - 295 - 235 - 360 - 345 - 325 = -2325
+  
+  Temperature component: 450(-210) + 520(-245) + 610(-310) + 580(-295) + 490(-235) 
+                        + 720(-360) + 680(-345) + 640(-325)
+                       = -94500 - 127400 - 189100 - 171100 - 115150 - 259200 - 234600 - 208000
+                       = -1399050
+
+  Pressure component: 120(-210) + 135(-245) + 150(-310) + 148(-295) + 130(-235) 
+                     + 170(-360) + 165(-345) + 155(-325)
+                    = -25200 - 33075 - 46500 - 43660 - 30550 - 61200 - 56925 - 50375
+                    = -347485
+
+  Time component: 1.2(-210) + 1.8(-245) + 2.5(-310) + 2.2(-295) + 1.5(-235) 
+                 + 3.1(-360) + 2.9(-345) + 2.6(-325)
+                = -252 - 441 - 775 - 649 - 352.5 - 1116 - 1000.5 - 845
+                = -5430
+
+∇J(θ) = (1/8) × [−2325, −1399050, −347485, −5430]^T
+       = [−290.625, −174881.25, −43435.625, −678.75]^T
+
+Step 4: Parameter update using gradient descent
+------------------------------------------------
+θ_new = θ_old - α · ∇J(θ)
+      = [0, 0, 0, 0]^T - 10^-7 × [−290.625, −174881.25, −43435.625, −678.75]^T
+      = [0, 0, 0, 0]^T - [−0.0000290625, −0.0174881, −0.00434356, −0.0000678]^T
+      = [0.0000290625, 0.0174881, 0.00434356, 0.0000678]^T
+
+Result After 1st Update:
+θ^(1) ≈ [0.0000291, 0.01749, 0.004344, 0.0000678]^T
+
+
+QUESTION (d): Slow Convergence Problem
+
+(i) Two Dataset/Model-Related Reasons for Slow Convergence:
+
+Reason 1: Vastly Different Feature Scales
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The features have completely different magnitudes:
+  - Temperature: ranges from 450 to 720 (range: 270)
+  - Pressure: ranges from 120 to 170 (range: 50)
+  - Processing Time: ranges from 1.2 to 3.1 (range: 1.9)
+
+This causes the gradients with respect to θ1 (temperature coefficient) to be much larger 
+than gradients for θ3 (time coefficient):
+  - ∂J/∂θ1 involves terms like x1_i which are ~450-720
+  - ∂J/∂θ3 involves terms like x3_i which are ~1.2-3.1
+
+The gradient magnitude difference is on the order of 200×+.
+
+Impact: To safely update small-gradient parameters (θ3), the learning rate must be very small 
+(10^-7), but this makes updates to large-gradient parameters (θ1) negligible, causing slow 
+convergence.
+
+Reason 2: Poorly Conditioned Hessian Matrix
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The Hessian matrix H = X^T X has very different eigenvalues due to feature scale differences.
+This creates a poorly conditioned optimization landscape (high condition number).
+
+The eigenvalues are roughly proportional to the squares of feature ranges:
+  - λ1 ≈ (270)^2 = 72900 (from temperature scale)
+  - λ3 ≈ (1.9)^2 = 3.61 (from time scale)
+
+Condition number κ = λ_max / λ_min ≈ 72900 / 3.61 ≈ 20,000
+
+This high condition number means the cost function has elongated contours in parameter space.
+Gradient descent must take many small steps because the optimal step size in one direction 
+causes overshooting in another direction, resulting in a zigzag convergence pattern.
+
+(ii) Two Improvements Without Changing Model Type:
+
+Improvement 1: Feature Scaling (Standardization)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Transform each feature to have zero mean and unit variance:
+  x_j_scaled = (x_j - μ_j) / σ_j
+
+Where:
+  - μ_j = mean of feature j
+  - σ_j = standard deviation of feature j
+
+For example:
+  Temperature: μ1 ≈ 596, σ1 ≈ 82
+  Pressure: μ2 ≈ 146, σ2 ≈ 16
+  Time: μ3 ≈ 2.2, σ3 ≈ 0.69
+
+Benefits:
+  - All features now have similar scales (mean 0, std 1)
+  - Gradient magnitudes become comparable
+  - Condition number of Hessian reduces dramatically (typically κ < 100)
+  - Learning rate can be increased significantly (from 10^-7 to 10^-3 or higher)
+  - Convergence becomes much faster and more stable
+
+Implementation: Use min-max scaling, standardization, or other normalization techniques.
+
+Improvement 2: Adaptive Learning Rate (e.g., Adam Optimizer)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Instead of using fixed learning rate α for all parameters, use adaptive per-parameter 
+learning rates.
+
+Example: Gradient Descent with Momentum or Adam
+  v_t = β·v_t-1 + ∇J(θ_t)  [accumulate gradient history]
+  θ_t+1 = θ_t - α · v_t     [update with momentum]
+
+Or implement adaptive learning rates:
+  s_j^(t) = β·s_j^(t-1) + (∂J/∂θ_j)^2  [squared gradient history]
+  θ_j^(t+1) = θ_j^(t) - (α/√(s_j^(t))) · ∂J/∂θ_j
+
+Benefits:
+  - Parameters with consistently large gradients get smaller effective step sizes
+  - Parameters with small gradients get larger effective step sizes
+  - Reduces sensitivity to learning rate tuning
+  - Can handle unscaled features better than vanilla gradient descent
+  - Typically converges in fewer iterations
+
+Note: While Improvement 2 helps, Improvement 1 (feature scaling) is more fundamental
+and required for proper optimization.
+
+
+QUESTION (e): Feature Scaling and Learning Rate Impact
+
+Mathematical Explanation of Improved Convergence:
+--------------------------------------------------
+
+Before Feature Scaling:
+  Gradient magnitudes are O(10^5) to O(10^3) due to feature scale differences
+  With α = 10^-7:
+    Update size: |Δθ_j| = α · |∂J/∂θ_j| = 10^-7 × {O(10^5) to O(10^3)} = {O(10^-2) to O(10^-4)}
+  Very small updates → slow convergence
+
+After Feature Scaling:
+  All features standardized to N(0,1)
+  Gradient magnitudes become comparable: O(10^2) range
+  With α = 10^-3:
+    Update size: |Δθ_j| = 10^-3 × O(10^2) = O(10^-1)
+  Much larger, more uniform updates → faster convergence
+
+Mathematical Why It Works:
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Scaled features x_scaled and unscaled features x_original are related by:
+  x_scaled = (x_original - μ) / σ
+
+In gradient computation:
+  ∂J/∂θ_j = (1/n) Σ (ŷ - y) · x_j
+
+For scaled features:
+  ∂J/∂θ_j_scaled = (1/n) Σ (ŷ - y) · (x_j - μ) / σ
+                 = (1/σ) · ∂J/∂θ_j_unscaled
+
+So the gradients are inversely proportional to σ. When all σ ≈ 1, all gradients have 
+similar magnitude.
+
+The Hessian eigenvalues after scaling:
+  X^T X becomes much better conditioned
+  Condition number κ reduces from ~20,000 to ~10-100
+  
+This is equivalent to having nearly isotropic (circular) level sets of the loss function.
+Gradient descent can now make nearly straight-line progress toward the optimum, requiring
+far fewer iterations.
+
+Does the Final Solution Change?
+--------------------------------
+
+NO, the final solution does NOT change in terms of the original features.
+
+Proof:
+~~~~~
+Consider the relationship between parameters before and after scaling:
+
+If we train on scaled features x_scaled and get parameters θ_scaled, the prediction is:
+  ŷ = θ0 + θ1_scaled · (x1 - μ1)/σ1 + θ2_scaled · (x2 - μ2)/σ2 + θ3_scaled · (x3 - μ3)/σ3
+
+This can be rewritten as:
+  ŷ = (θ0 - θ1_scaled·μ1/σ1 - θ2_scaled·μ2/σ2 - θ3_scaled·μ3/σ3) 
+      + θ1_scaled/σ1 · x1 + θ2_scaled/σ2 · x2 + θ3_scaled/σ3 · x3
+
+This has the same form as:
+  ŷ = θ0_unscaled + θ1_unscaled · x1 + θ2_unscaled · x2 + θ3_unscaled · x3
+
+Where:
+  θ1_unscaled = θ1_scaled / σ1
+  θ2_unscaled = θ2_scaled / σ2
+  θ3_unscaled = θ3_scaled / σ3
+  θ0_unscaled = θ0_scaled - θ1_scaled·μ1/σ1 - θ2_scaled·μ2/σ2 - θ3_scaled·μ3/σ3
+
+Both models make identical predictions on the original feature space.
+The loss function J(θ) on test data is identical.
+
+The only thing that changes is:
+  1. The RATE of convergence (much faster with scaling + higher α)
+  2. The parameter VALUES for scaled features (different θ_j values)
+  3. The NUMERICAL STABILITY during optimization (better with scaling)
+
+The fundamental solution to the regression problem remains unchanged.
+
+Why Larger Learning Rate Works with Scaling:
+
+
+Before scaling: Condition number κ ≈ 20,000
+  Maximum safe learning rate: α_max ≈ 1/λ_max ≈ 10^-7
+  This is why α = 10^-7 was necessary
+
+After scaling: Condition number κ ≈ 50
+  Maximum safe learning rate: α_max ≈ 1/λ_max ≈ 10^-2
+  This is why α = 10^-3 is safe and effective
+
+Summary:
+Feature scaling doesn't change the optimal solution, but it transforms the optimization
+landscape from an elongated ellipsoid to nearly a sphere. This allows:
+  - 1000× larger learning rate (10^-3 vs 10^-7)
+  - ~100× faster convergence (fewer iterations needed)
+  - Better numerical stability and reliability
+
+The convergence improvement is therefore a property of the optimization PROCESS, not 
+the underlying mathematical problem.
+

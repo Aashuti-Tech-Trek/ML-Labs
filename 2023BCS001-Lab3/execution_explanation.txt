@@ -1,0 +1,73 @@
+# Execution and Explanation of the Code
+
+## Code Overview
+The code in `main.cpp` implements a logistic regression model that predicts class probabilities based on learned parameters. The model uses gradient descent optimization with the following settings:
+
+### Training Configuration
+- **Learning Rate (alpha)**: 0.001
+- **Iterations**: 10000
+- **Number of Observations**: 8
+
+### Learned Parameters (After Training)
+- **theta0**: -0.0387291
+- **theta1**: 0.418369
+- **theta2**: -1.67153
+- **theta3**: 0.0816628
+
+These parameters were learned through 10,000 iterations of gradient descent with a learning rate of 0.001, which controls how much the parameters are updated in each iteration.
+
+## Results Comparison: Different Learning Rates
+
+### Run 1: Higher Learning Rate (Alpha = 0.001)
+#### Learned Parameters:
+- **theta0**: -0.0387291
+- **theta1**: 0.418369
+- **theta2**: -1.67153
+- **theta3**: 0.0816628
+
+#### Predictions:
+
+| Obs | Probability   | Class |
+|-----|---------------|-------|
+| 1   | 4.74608e-006  | 0     |
+| 2   | 0.000336594   | 0     |
+| 3   | 0.990446      | 1     |
+| 4   | 0.0100372     | 0     |
+| 5   | 4.95941e-006  | 0     |
+| 6   | 1             | 1     |
+| 7   | 0.999862      | 1     |
+| 8   | 0.999856      | 1     |
+
+### Run 2: Lower Learning Rate (Alpha = 0.00001)
+#### Learned Parameters:
+- **theta0**: -0.00423016
+- **theta1**: 0.0456302
+- **theta2**: -0.18141
+- **theta3**: 0.00892006
+
+#### Predictions:
+
+| Obs | Probability   | Class |
+|-----|---------------|-------|
+| 1   | 0.226336      | 0     |
+| 2   | 0.320647      | 0     |
+| 3   | 0.654983      | 1     |
+| 4   | 0.409085      | 0     |
+| 5   | 0.228759      | 0     |
+| 6   | 0.884677      | 1     |
+| 7   | 0.753534      | 1     |
+| 8   | 0.750964      | 1     |
+
+## Explanation of Results
+
+### Impact of Learning Rate:
+- **Higher Learning Rate (0.001)**: The parameters converge to larger magnitudes, resulting in more extreme probabilities (very close to 0 or 1). This creates sharper decision boundaries.
+- **Lower Learning Rate (0.00001)**: The parameters converge to smaller magnitudes, resulting in more moderate probabilities. The model is more conservative in its predictions, with probabilities spread more across the range [0, 1].
+
+### Key Observations:
+- **Observation 6**: With alpha=0.001, probability is 1.0 (very confident class 1). With alpha=0.00001, probability is 0.884677 (still confident but less extreme).
+- **Observations 7, 8**: Both learning rates predict class 1, but the higher learning rate produces probabilities closer to 1.
+- **Observations 1, 2, 5**: Both learning rates predict class 0, but the higher learning rate produces very small probabilities, while the lower learning rate produces more moderate probabilities around 0.22-0.32.
+
+## Conclusion
+The learning rate significantly affects how aggressively the model updates its parameters during training. A higher learning rate (0.001) results in larger parameter updates and more extreme predictions, while a lower learning rate (0.00001) results in smaller parameter updates and more moderate predictions. Both models correctly classify the observations, but with different confidence levels.
